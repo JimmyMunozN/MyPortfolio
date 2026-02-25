@@ -1,4 +1,4 @@
-import { pulseAnimation, componentAnimation } from "./animation.js";
+import { pulseAnimation, componentAnimation, showBackground } from "./animation.js";
 import { homeStart } from "./home.js";
 import { aboutStart } from "./about.js";
 import { portfolioStart } from "./projects.js";
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollToTarget('start');
         actualTarget = SECTION_NAMES.indexOf('start');
     }, 200); 
-    
+
     document.querySelectorAll('#navbar a').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault(); 
@@ -208,6 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
         handlePageTransition('start');
         animationObject = null;
     });
+
+    showBackground();
 });
 
 

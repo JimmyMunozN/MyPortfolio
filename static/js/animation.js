@@ -6,6 +6,9 @@ let container = null;
 let content = null;
 let prevYvalue = 0;
 
+const background = document.getElementById('backgroundContainer');
+const navbar = document.getElementById('navigationBar');
+
 const entryProps = (x, y) => ({
     opacity: [0, 1],
     translateX: [x, 0],
@@ -135,3 +138,22 @@ export async function pulseAnimation(target) {
             });
     }
 };
+
+export async function showBackground() {
+
+    const animationSettings = {
+        duration: 2000,
+        fill: 'forwards',
+        easing: 'cubic-bezier(0.25, 1, 0.5, 1)'
+    };
+
+    const fadeShowing = [
+        {opacity: 0},
+        {opacity: 1}
+    ];
+
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    await navbar.animate(fadeShowing, animationSettings).finished;
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    background.animate(fadeShowing, animationSettings);
+}
