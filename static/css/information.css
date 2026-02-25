@@ -282,7 +282,7 @@
 }
 
 .aboutSection {
-    margin-top: 93vh;
+    margin-top: 90%;
     margin-left: 10vw;
 }
 
@@ -441,7 +441,7 @@
 }
 
 .contactSection {
-    margin-top: 87vw;
+    margin-top: 68%;
     margin-left: 77vw;
     width: 52vw;
     transform: scale(0);
