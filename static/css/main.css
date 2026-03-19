@@ -44,7 +44,6 @@ body::-webkit-scrollbar {
     height: 100vh;
     z-index: 9999;
     pointer-events: none;
-    /* Evita que el navegador suavice de más los píxeles si quieres un look "sharp" */
     image-rendering: crisp-edges;
     image-rendering: pixelated; 
 }
