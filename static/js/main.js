@@ -1,4 +1,4 @@
-import { pulseAnimation, componentAnimation, showBackground } from "./animation.js";
+import { pulseAnimation, componentAnimation, showBackground, loop } from "./animation.js";
 import { homeStart } from "./home.js";
 import { aboutStart } from "./about.js";
 import { portfolioStart } from "./projects.js";
@@ -209,7 +209,5 @@ document.addEventListener('DOMContentLoaded', () => {
         animationObject = null;
     });
 
-    showBackground();
+    requestAnimationFrame(loop);
 });
-
-

@@ -32,6 +32,22 @@ body::-webkit-scrollbar {
     display: block;
 }
 
+#right-circuit, #top-circuit, #left-circuit {
+    opacity: 0;
+}
+
+#canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated; 
+}
+
 #content {
     position: relative;
     z-index: 20;
