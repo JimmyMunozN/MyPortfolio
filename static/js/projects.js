@@ -1,7 +1,6 @@
 import { componentAnimation } from "./animation.js";
 
 export async function portfolioStart(toScale) {
-
     const projectButton = document.querySelector('.projectsButton');
     const techStackButton = document.querySelector('.techStackButton');
     projectButton.classList.remove('portfolioButtonActive');
