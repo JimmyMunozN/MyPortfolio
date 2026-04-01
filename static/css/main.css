@@ -32,8 +32,13 @@ body::-webkit-scrollbar {
     display: block;
 }
 
-#right-circuit, #top-circuit, #left-circuit {
+#right-circuit, #top-circuit, #left-circuit, #bottom-circuit {
     opacity: 0;
+}
+
+#pulseShadow {
+  --blur-size: 10px;
+  filter: drop-shadow(0 0 var(--blur-size) #00fff2a6);
 }
 
 #canvas {
@@ -46,6 +51,11 @@ body::-webkit-scrollbar {
     pointer-events: none;
     image-rendering: crisp-edges;
     image-rendering: pixelated; 
+}
+
+.charge {
+  transform-box: fill-box;
+  transform-origin: bottom; 
 }
 
 #content {

@@ -1,4 +1,4 @@
-import { pulseAnimation, componentAnimation, showBackground, loop } from "./animation.js";
+import { pulseAnimation, componentAnimation, animateBgComponents } from "./animation.js";
 import { homeStart } from "./home.js";
 import { aboutStart } from "./about.js";
 import { portfolioStart } from "./projects.js";
@@ -14,6 +14,7 @@ let actualTarget = 0;
 let isScrolling = false;
 let animationObject = null;
 let previousTarget = null;
+let inputsActive = true;
 
 function animationScroll(target) {
     const targets = {
@@ -42,18 +43,29 @@ async function scrollToTarget(target) {
         animationScroll('start');
         await new Promise(resolve => setTimeout(resolve, TRANSITION_TIME + 50));
     }
+
+    const circuitDictionary = {
+        'start': 'start',
+        'home': 'top-circuit', 
+        'about': 'left-circuit',
+        'projects': 'right-circuit',
+        'contact': 'bottom-circuit'
+    } 
+    circuitAnimation(circuitDictionary[target]);
+
     animationScroll(target);
     actualTarget = SECTION_NAMES.indexOf(target);
     await new Promise(resolve => setTimeout(resolve, TRANSITION_TIME + 50));
 }
 
-// main.js - Modificación clave
+export function setInputsState(active) {
+    inputsActive = active;
+    document.body.style.pointerEvents = active ? 'auto' : 'none';
+    document.body.style.cursor = active ? 'default' : 'wait';
+}
 
 async function handlePageTransition(targetPageName) {
-    if (isScrolling) {
-        console.warn("Transición bloqueada: Otra animación está en curso.");
-        return;
-    }
+    if (isScrolling || !inputsActive) return;
 
     if (previousTarget !== targetPageName) {
         isScrolling = true;
@@ -69,6 +81,23 @@ async function handlePageTransition(targetPageName) {
         } finally {
             isScrolling = false;
         }
+    }
+}
+
+function circuitAnimation(circuit) {
+    const circuitos = ['top-circuit', 'right-circuit', 'left-circuit', 'bottom-circuit'];
+
+    circuitos.forEach(id => {
+        const elemento = document.getElementById(id);
+        if (elemento) {
+            elemento.getAnimations().forEach(anim => anim.cancel());
+            elemento.style.opacity = '0';
+        }
+    });
+
+    if (circuit != 'start') {
+        const circuitDecor = document.getElementById(circuit);
+        circuitDecor.style.opacity = '1';
     }
 }
 
@@ -127,9 +156,7 @@ async function loadContent(pageName) {
 async function handleVerticalScroll(event) {
     event.preventDefault(); 
 
-    if (isScrolling) {
-        return;
-    }
+    if (isScrolling || !inputsActive) return;
     
     animationObject = null;
     
@@ -181,14 +208,39 @@ function navIndicator(target) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const validPages = new Set(['home', 'about', 'projects', 'contact']);
     pulseAnimation('start');
+    animateBgComponents();
+
     window.addEventListener('wheel', handleVerticalScroll, { passive: false });
+    
     setTimeout(() => {
         scrollToTarget('start');
         actualTarget = SECTION_NAMES.indexOf('start');
     }, 200); 
+
+    window.addEventListener('keydown', (event) => {
+        const keyMap = {
+            'ArrowUp':    'home',
+            'ArrowDown':  'contact',
+            'ArrowRight': 'projects',
+            'ArrowLeft':  'about'
+        };
+
+        if (keyMap[event.key]) {
+            event.preventDefault(); 
+        }
+
+        if (isScrolling) return;
+
+        const targetSection = keyMap[event.key];
+
+        if (targetSection) {
+            animationObject = null;
+            handlePageTransition(targetSection);
+        }
+    }, { passive: false });
 
     document.querySelectorAll('#navbar a').forEach(link => {
         link.addEventListener('click', (e) => {
@@ -209,5 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
         animationObject = null;
     });
 
-    requestAnimationFrame(loop);
+    setInputsState(false);
+    await welcome();
 });

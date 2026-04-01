@@ -234,14 +234,12 @@
     }
 }
 
-#outRing {
-    transform-origin: center;
+#outRing, .outRing {
     animation: clockWise 5s linear infinite;
     transition: transform 0.3s ease-out;
 }
 
-#subOutRing {
-    transform-origin: center;
+#subOutRing, .subOutRing {
     animation: antiClockWise 7s linear infinite;
 }
 
@@ -261,19 +259,22 @@
     animation-duration: 10s;
 }
 
-#middleRing {
-    transform-origin: center;
+#middleRing, .middleRing {
     animation: clockWise 11s linear infinite;
 }
 
-#innerRing {
-    transform-origin: center;
+#innerRing, .innerRing {
     animation: antiClockWise 5s linear infinite;
 }
 
-#core {
-    transform-origin: center;
+#core, .core {
     animation: clockWise 4s linear infinite;
+}
+
+#core, #innerRing, #middleRing, #subOutRing, #outRing,
+.core, .innerRing, .middleRing, .subOutRing, .outRing {
+    transform-origin: center;
+    transform-box: fill-box; 
 }
 
 #HomeCoreAnimation path {
